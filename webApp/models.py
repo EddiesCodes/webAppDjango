@@ -1,31 +1,20 @@
 from django.db import models
 
-# Create your models here.
-# the following lines added:
-import datetime
-from django.utils import timezone
+
+class SaleProduct(models.Model):
+    id = models.IntegerField(primary_key=True, auto_created=True)
+    name = models.CharField(max_length=200, null=True)
+    img = models.ImageField(null=True)
+    title = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=200, null=True)
+
+    def get_all(self):
+        return [self.name, self.picture, self.description]
 
 
-class Question(models.Model):
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
-
-    def __str__(self):
-        return self.question_text
-
-    def was_published_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
-
-    was_published_recently.admin_order_field = 'pub_date'
-    was_published_recently.boolean = True
-    was_published_recently.short_description = 'Published recently?'
-
-
-class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.DO_NOTHING, )
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.choice_text
+s1 = SaleProduct(id=1, name='Sofa', img='./Bilder/Bild1.jpeg', title='SofaBild', description='Ein Sofa')
+s1.save()
+s2 = SaleProduct(id=2, name='Schrank', img='Bild1.jpeg', title='SchrankBild', description='Ein Schrank')
+s2.save()
+s3 = SaleProduct(id=3, name='Sofa', img='Bild1.jpeg', title='SofaBild', description='Ein Sofa')
+s3.save()
